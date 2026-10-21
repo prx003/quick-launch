@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState, type ReactNode, type FormEvent } from "react";
-import { Menu, X, Mic, Users, Cpu, Wrench, Network, Compass, Plus } from "lucide-react";
+import { Menu, X, Mic, Users, Cpu, Wrench, Network, Compass, Plus, ArrowLeft } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { summit, tracks, agenda, speakerTypes, faqs } from "@/config/aics-summit";
 import stageAssetUrl from "@/assets/aics/g-stage.jpg";
 const stageAsset = { url: stageAssetUrl };
@@ -35,6 +36,12 @@ const links = [
   ["Home", "home"], ["About", "about"], ["Speakers", "speakers"],
 ] as const;
 
+const siteLinks = [
+  ["AI", "/ai"], ["Multimedia", "/multimedia"], ["Management", "/management"],
+  ["UG & PG Program", "/ug-programs"], ["Online Programs", "/online-programs"],
+  ["Workshop", "/workshop"], ["Future Score", "/future-score"],
+] as const;
+
 export function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
   return (
     <motion.div className={className} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }}
@@ -63,9 +70,16 @@ export function Nav() {
     <>
       <header className={`aics-neon fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? "border-b border-border bg-background/80 backdrop-blur-xl" : "bg-background/40 backdrop-blur-md"}`}>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
-          <a href="#home" className="font-aics-display text-xl font-extrabold tracking-tight">AI<span className="aics-text-gradient">CS</span></a>
-          <nav className="hidden gap-7 text-sm text-muted-foreground lg:flex">
+          <div className="flex items-center gap-3">
+            <Link to="/" className="hidden items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:text-foreground sm:inline-flex" aria-label="Back to home page">
+              <ArrowLeft className="h-3.5 w-3.5" /> Back
+            </Link>
+            <a href="#home" className="font-aics-display text-xl font-extrabold tracking-tight">AI<span className="aics-text-gradient">CS</span></a>
+          </div>
+          <nav className="hidden items-center gap-5 text-sm text-muted-foreground lg:flex xl:gap-7">
             {links.map(([l, id]) => <a key={id} href={`#${id}`} className="transition hover:text-foreground">{l}</a>)}
+            <span className="hidden h-4 w-px bg-border xl:inline-block" aria-hidden="true" />
+            {siteLinks.map(([l, href]) => <Link key={href} to={href} className="hidden text-sm text-muted-foreground transition hover:text-foreground xl:inline">{l}</Link>)}
           </nav>
           <a href="#register" className="hidden rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background lg:inline-block">Register Now</a>
           <button className="lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu"><Menu /></button>
@@ -74,12 +88,25 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="aics-neon fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-background p-6 pt-[max(1.5rem,env(safe-area-inset-top))]">
-            <button className="self-end" onClick={() => setOpen(false)} aria-label="Close menu"><X /></button>
+            <div className="flex items-center justify-between">
+              <Link to="/" onClick={() => setOpen(false)} className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground">
+                <ArrowLeft className="h-4 w-4" /> Back
+              </Link>
+              <button onClick={() => setOpen(false)} aria-label="Close menu"><X /></button>
+            </div>
             <div className="mt-10 flex flex-col gap-6">
               {links.map(([l, id], i) => (
                 <motion.a key={id} href={`#${id}`} onClick={() => setOpen(false)} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }} className="font-aics-display text-3xl font-bold">{l}</motion.a>
               ))}
               <a href="#register" onClick={() => setOpen(false)} className="mt-6 rounded-full bg-foreground px-6 py-4 text-center font-medium text-background">Register Now</a>
+              <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">Main Site</p>
+              <div className="flex flex-col gap-4">
+                {siteLinks.map(([l, href], i) => (
+                  <motion.div key={href} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 + i * 0.03 }}>
+                    <Link to={href} onClick={() => setOpen(false)} className="text-lg font-medium text-muted-foreground transition hover:text-foreground">{l}</Link>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
