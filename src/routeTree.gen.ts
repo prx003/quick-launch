@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AiRouteImport } from './routes/ai'
+import { Route as AicsRouteImport } from './routes/aics'
 import { Route as FutureScoreRouteImport } from './routes/future-score'
 import { Route as IncubationRouteImport } from './routes/incubation'
 import { Route as ManagementRouteImport } from './routes/management'
@@ -52,6 +53,11 @@ const IndexRoute = IndexRouteImport.update({
 const AiRoute = AiRouteImport.update({
   id: '/ai',
   path: '/ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AicsRoute = AicsRouteImport.update({
+  id: '/aics',
+  path: '/aics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FutureScoreRoute = FutureScoreRouteImport.update({
@@ -227,6 +233,7 @@ const PortfolioSlugRoute = PortfolioSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai': typeof AiRouteWithChildren
+  '/aics': typeof AicsRoute
   '/future-score': typeof FutureScoreRouteWithChildren
   '/incubation': typeof IncubationRoute
   '/management': typeof ManagementRouteWithChildren
@@ -262,6 +269,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aics': typeof AicsRoute
   '/incubation': typeof IncubationRoute
   '/online-programs': typeof OnlineProgramsRoute
   '/outcomes': typeof OutcomesRoute
@@ -296,6 +304,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ai': typeof AiRouteWithChildren
+  '/aics': typeof AicsRoute
   '/future-score': typeof FutureScoreRouteWithChildren
   '/incubation': typeof IncubationRoute
   '/management': typeof ManagementRouteWithChildren
@@ -334,6 +343,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/ai'
+    | '/aics'
     | '/future-score'
     | '/incubation'
     | '/management'
@@ -369,6 +379,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/aics'
     | '/incubation'
     | '/online-programs'
     | '/outcomes'
@@ -402,6 +413,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/ai'
+    | '/aics'
     | '/future-score'
     | '/incubation'
     | '/management'
@@ -439,6 +451,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiRoute: typeof AiRouteWithChildren
+  AicsRoute: typeof AicsRoute
   FutureScoreRoute: typeof FutureScoreRouteWithChildren
   IncubationRoute: typeof IncubationRoute
   ManagementRoute: typeof ManagementRouteWithChildren
@@ -464,6 +477,13 @@ declare module '@tanstack/react-router' {
       path: '/ai'
       fullPath: '/ai'
       preLoaderRoute: typeof AiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aics': {
+      id: '/aics'
+      path: '/aics'
+      fullPath: '/aics'
+      preLoaderRoute: typeof AicsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/future-score': {
@@ -782,6 +802,7 @@ const MultimediaRouteWithChildren = MultimediaRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiRoute: AiRouteWithChildren,
+  AicsRoute: AicsRoute,
   FutureScoreRoute: FutureScoreRouteWithChildren,
   IncubationRoute: IncubationRoute,
   ManagementRoute: ManagementRouteWithChildren,

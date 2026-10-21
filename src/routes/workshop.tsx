@@ -60,6 +60,7 @@ const navItems: { label: string; chevron: boolean; href?: string }[] = [
   { label: "UG & PG Program", chevron: true, href: "/ug-programs" },
   { label: "Online Programs", chevron: true, href: "/online-programs" },
   { label: "Workshop", chevron: false, href: "/workshop" },
+  { label: "AICS", chevron: false, href: "/aics" },
 ];
 
 const lifecycle = [
