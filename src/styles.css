@@ -324,3 +324,15 @@
 @utility animate-sheen { animation: sheen 5s ease-in-out infinite; }
 @utility animate-rise { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
 @utility animate-particle { animation: particle linear infinite; }
+@keyframes orbit-left { 0% { transform: rotate(-70deg); } 100% { transform: rotate(70deg); } }
+@keyframes orbit-right { 0% { transform: rotate(70deg); } 100% { transform: rotate(-70deg); } }
+@keyframes ring-breathe { 0%,100% { opacity: .55; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+@utility animate-orbit-left { animation: orbit-left 10s ease-in-out infinite alternate; }
+@utility animate-orbit-right { animation: orbit-right 10s ease-in-out infinite alternate; }
+@utility half-ring { border: 2px solid color-mix(in oklab, var(--ring-line) 85%, transparent); box-shadow: 0 0 40px color-mix(in oklab, var(--ring-line) 55%, transparent), inset 0 0 40px color-mix(in oklab, var(--ring-line) 40%, transparent); border-radius: 9999px; animation: ring-breathe 5s ease-in-out infinite; }
+@keyframes orbit-left-rev { 0% { transform: rotate(70deg); } 100% { transform: rotate(-70deg); } }
+@keyframes orbit-right-rev { 0% { transform: rotate(-70deg); } 100% { transform: rotate(70deg); } }
+@utility animate-orbit-left-rev { animation: orbit-left-rev 10s ease-in-out infinite alternate; }
+@utility animate-orbit-right-rev { animation: orbit-right-rev 10s ease-in-out infinite alternate; }
+@keyframes aics-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@utility animate-marquee { animation: aics-marquee 30s linear infinite; }
